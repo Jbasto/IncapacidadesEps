@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta content='text/html; charset=ISO-8859-1' http-equiv="Content-Type"/>
+        <title>Parkeasy - Registro de Usuario</title>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/> 
+
+        <h:outputScript library="js" name="materialize.min.js"></h:outputScript>
+        <h:outputStylesheet library="css" name="materialize.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="cssLayout.css"></h:outputStylesheet>
+    </h:head> 
+
+    <h:body styleClass="cyan lighten-5 bgimg">       
+        <div class="container">           
+            <div class="row">
+                <div class="col s6 offset-s3">
+                    <div class="card">
+                        <div class="card-content" style="border-radius: 50px">                            
+                            <div style="width: 100%; text-align: center">
+                                <p:graphicImage class="responsive-img" style="width: 80%" library="images" name="logo_salud.png"></p:graphicImage>
+                            </div>                            
+                            <div class="left-align">
+                                <h:form id="login-form">
+                                    <p:growl autoUpdate="true"/>
+                                    <p:messages autoUpdate="true"/>
+                                    <div class="row">
+                                        <div class="col s12 input-field">
+                                            <h:inputText value="#{registroFormBean.nombresFuncionario}" id="nombresFuncionario" label="Nombres Funcionario"/>
+                                            <h:outputLabel for="nombresFuncionario" value="Nombres de Funcionario:"/>                                                   
+                                        </div>
+
+                                        <div class="col s12 input-field">
+                                            <h:inputText value="#{registroFormBean.apellidosFuncionario}" id="apellidosFuncionario" label="Apellidos Funcionario"/>
+                                            <h:outputLabel for="apellidosFuncionario" value="Apellidos de Funcionario:"/>                                                   
+                                        </div>
+
+                                        <div class="col s12">     
+                                            <h:panelGrid columns="1" cellpadding="5">
+                                                <h:outputLabel for="nombre" value="Tipo Documento:"/>                                                                                     
+                                                <p:selectOneMenu id="country" value="#{registroFormBean.country}" style="width: 100%">                                               
+                                                    <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems value="#{registroFormBean.countries}" />
+                                                </p:selectOneMenu>  
+                                            </h:panelGrid>
+                                        </div>
+
+                                        <div class="col s12 input-field">
+                                            <h:inputSecret value="#{registro.claveUsuario}" id="documento" label="password"/>
+                                            <h:outputLabel for="password" value="Documento:" />                                                    
+                                        </div>
+
+                                        <div class="col s12 input-field">
+                                            <h:inputText value="#{registro.correoUsuario}" id="correo" label="correo"/>
+                                            <h:outputLabel for="correo" value="Correo Usuario:"/>                                                   
+                                        </div>
+
+                                        <div class="col s12 input-field">
+                                            <h:inputSecret value="#{registro.conClaveUsuario}" id="telefono" label="conpassword"/>
+                                            <h:outputLabel for="telefono" value="Telefono Funcionario:" />                                                    
+                                        </div>                                       
+
+                                        <div class="col s12 input-field">
+                                            <h:inputSecret value="#{registro.conClaveUsuario}" id="password" label="conpassword"/>
+                                            <h:outputLabel for="password" value="Contraseña:" />                                                    
+                                        </div>
+
+                                        <div class="col s12 input-field" style="text-align: center">
+                                            <p:commandLink id="loginButton" value="Registrar Usuario" style="margin-left: 20px; margin-right: 20px" styleClass="btn btn-Large" action="#{registro.registrar()}"/>                                            
+                                        </div>                                                                                                                                               
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).on("ready", function () {
+                $('#login.page').css({'height': window.innerHeight + 'px'});
+            });
+        </script>
+    </h:body>
+</html>
+
