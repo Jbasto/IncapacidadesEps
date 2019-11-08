@@ -5,9 +5,13 @@
  */
 package edu.uniciencia.incapacidades.form;
 
-import java.util.HashMap;
-import java.util.Map;
+import edu.uniciencia.incapacidades.dto.TipoDocumentoDto;
+import edu.uniciencia.incapacidades.ejb.beans.FuncionarioEjbFormBeanLocal;
+import edu.uniciencia.incapacidades.util.Util;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
@@ -19,21 +23,18 @@ import javax.faces.bean.ManagedBean;
 @ApplicationScoped
 public class RegistroFormBean {
 
+    @EJB
+    private FuncionarioEjbFormBeanLocal funcionarioEjbFormBean;
+
     String nombresFuncionario, apellidosFuncionario, documentoFuncionario, correoFuncionario, telefonoFuncionario, contrasenaFuncionario;
     int tipoDocumento;
+    List<TipoDocumentoDto> listaTipoDocumentoDto = new ArrayList<>();
 
-    
-    private Map<String,Map<String,String>> data = new HashMap<String, Map<String,String>>();
-    private String country;  
-    private String city;
-    private Map<String,String> countries;
-    private Map<String,String> cities;
-    
     /**
      * Creates a new instance of RegistroFormBean
      */
     public RegistroFormBean() {
-        
+
     }
 
     public String getNombresFuncionario() {
@@ -92,61 +93,54 @@ public class RegistroFormBean {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public String registrar() {
-        return "/faces/registro.xhtml?faces-redirect=true";
+    public List<TipoDocumentoDto> getListaTipoDocumentoDto() {
+        return listaTipoDocumentoDto;
     }
-    
+
+    public void setListaTipoDocumentoDto(List<TipoDocumentoDto> listaTipoDocumentoDto) {
+        this.listaTipoDocumentoDto = listaTipoDocumentoDto;
+    }
+
+    public List<TipoDocumentoDto> getTipoDocumentoDto() {
+        //List<TipoDocumentoDto> listaTipoDocDto
+        listaTipoDocumentoDto = funcionarioEjbFormBean.getTipoDocumento();
+        /*if (listaTipoDocDto != null) {
+            listaTipoDocumentoDto.addAll(listaTipoDocDto);// = listaTipoDocDto;
+        }*/
+        return listaTipoDocumentoDto;
+    }
+
+    public String registrar() {
+        if (documentoFuncionario == null || documentoFuncionario.length() == 0
+                && nombresFuncionario == null || nombresFuncionario.length() == 0
+                && apellidosFuncionario == null || apellidosFuncionario.length() == 0               
+                && documentoFuncionario == null || documentoFuncionario.length() == 0
+                && correoFuncionario == null || correoFuncionario.length() == 0
+                && telefonoFuncionario == null || telefonoFuncionario.length() == 0
+                && contrasenaFuncionario == null || contrasenaFuncionario.length() == 0) {
+
+            Util.addErrorMessage("Los datos de registro son obligatorios.");
+        } else {
+            boolean insert = funcionarioEjbFormBean.insertFuncionario(nombresFuncionario, apellidosFuncionario, tipoDocumento, documentoFuncionario, correoFuncionario, telefonoFuncionario, contrasenaFuncionario);
+
+            if (insert) {
+                Util.addSuccessMessage("Registro Correcto!");
+                nombresFuncionario = "";
+                apellidosFuncionario = "";
+                documentoFuncionario = "";
+                correoFuncionario = "";
+                telefonoFuncionario = "";
+                contrasenaFuncionario = "";
+            } else {
+                Util.addErrorMessage("El registro no se pudo realizar puede ser que el usuario ya exista.");
+            }
+        }
+
+        return null;
+    }
+
     @PostConstruct
     public void init() {
-        countries  = new HashMap<String, String>();
-        countries.put("USA", "USA");
-        countries.put("Germany", "Germany");
-        countries.put("Brazil", "Brazil");
-         
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("New York", "New York");
-        map.put("San Francisco", "San Francisco");
-        map.put("Denver", "Denver");
-        data.put("USA", map);
-         
-        map = new HashMap<String, String>();
-        map.put("Berlin", "Berlin");
-        map.put("Munich", "Munich");
-        map.put("Frankfurt", "Frankfurt");
-        data.put("Germany", map);
-         
-        map = new HashMap<String, String>();
-        map.put("Sao Paulo", "Sao Paulo");
-        map.put("Rio de Janerio", "Rio de Janerio");
-        map.put("Salvador", "Salvador");
-        data.put("Brazil", map);
-    }
-    
-    public Map<String, Map<String, String>> getData() {
-        return data;
-    }
- 
-    public String getCountry() {
-        return country;
-    }
- 
-    public void setCountry(String country) {
-        this.country = country;
-    }
- 
-    public String getCity() {
-        return city;
-    }
- 
-    public void setCity(String city) {
-        this.city = city;
-    }
- 
-    public Map<String, String> getCountries() {
-        return countries;
-    }
- 
-    public Map<String, String> getCities() {
-        return cities;
+        getTipoDocumentoDto();
     }
 }

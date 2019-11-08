@@ -5,7 +5,10 @@
  */
 package edu.uniciencia.incapacidades.ejb.beans;
 
+import edu.uniciencia.incapacidades.dto.TipoDocumentoDto;
 import edu.uniciencia.incapacidades.ejb.persistentes.Funcionario;
+import edu.uniciencia.incapacidades.ejb.persistentes.TipoDocumento;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,27 +72,97 @@ public class FuncionarioEjbFormBean implements FuncionarioEjbFormBeanLocal {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String insertFuncionario(String nombres, String apellidos, int tipoDocumento, String documento, String correo, String telefono, String contrasena) {
-        String rta = "";
+    public boolean insertFuncionario(String nombres, String apellidos, int tipoDocumento, String documento, String correo, String telefono, String contrasena) {
         try {
-            Funcionario func = em.find(Funcionario.class, Short.parseShort(documento + ""));
-            if (func == null) {
+            boolean existe = validarDocumento(documento);
+            if (!existe) {
+                int id = getIdFuncionario() + 1;
+                Funcionario f = new Funcionario();
+                f.setPkIdFuncionario(id);
+                f.setFuncionarioNombres(nombres);
+                f.setFuncionarioApellidos(apellidos);
+                f.setFkIdTipoDocumentoFuncionario(tipoDocumento);
+                f.setFuncionarioDocumento(documento);
+                f.setFuncionarioCorreo(correo);
+                f.setFuncionarioTelefono(telefono);
+                f.setFuncionarioContrasena(contrasena);
+                em.persist(f);
 
-//                ciudad.setLastUpdate(fechaActualizacion);
-//                ciudad.setCountryId(pais);
-//                ciudad.setCity(nombreCiudad);
-//                em.merge(ciudad);
-                rta = "1,Se actualizo correctamente el registro";
-
+                return true;
             } else {
-                rta = "El Usuario ya Existe!";
+                return false;
             }
 
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
 
-        return "";
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<TipoDocumentoDto> getTipoDocumento() {
+        List<TipoDocumentoDto> listaTipoDocumentoDtos = new ArrayList<>();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT t FROM ");
+            sql.append("TipoDocumento t ");
+            Query query = em.createQuery(sql.toString());
+            List<TipoDocumento> listaTipoDoc = query.getResultList();
+            query.getResultList();
+            if (!listaTipoDoc.isEmpty()) {
+                listaTipoDoc.forEach((paisEntity) -> {
+                    listaTipoDocumentoDtos.add(new TipoDocumentoDto(paisEntity.getPkIdTipoDocumento(), paisEntity.getTipoDocumentoDescripcion()));
+                });
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return listaTipoDocumentoDtos;
+    }
+
+    @Override
+    public boolean validarDocumento(String documento) {
+        try {
+            Map<String, Object> mapa = new HashMap<>();
+            StringBuilder sql = new StringBuilder();
+
+            sql.append(" select f from ");
+            sql.append(" Funcionario f ");
+            sql.append(" where f.funcionarioDocumento =:documento ");
+
+            if (documento.length() > 0) {
+                mapa.put("documento", documento);
+            } else {
+                return false;
+            }
+
+            Query query = em.createQuery(sql.toString());
+
+            mapa.entrySet().forEach((m) -> {
+                query.setParameter(m.getKey(), m.getValue());
+            });
+
+            List<Funcionario> listaFuncionarios = query.getResultList();
+
+            if (!listaFuncionarios.isEmpty()) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int getIdFuncionario() {
+        try {
+            Query query = em.createQuery("select max(f.pkIdFuncionario) from Funcionario f ");
+            int result = (int) query.getSingleResult();//salary of type long
+            
+            return result;            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

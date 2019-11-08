@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <meta content='text/html; charset=ISO-8859-1' http-equiv="Content-Type"/>
-        <title>Parkeasy - Registro de Usuario</title>
+        <title>Registro de Usuario</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/> 
 
@@ -20,9 +20,14 @@
             <div class="row">
                 <div class="col s6 offset-s3">
                     <div class="card">
-                        <div class="card-content" style="border-radius: 50px">                            
-                            <div style="width: 100%; text-align: center">
-                                <p:graphicImage class="responsive-img" style="width: 80%" library="images" name="logo_salud.png"></p:graphicImage>
+                        <div class="card-content" 
+                             style="border-radius: 50px">                            
+                            <div style="width: 100%; 
+                                 text-align: center">
+                                <p:graphicImage class="responsive-img" 
+                                                style="width: 80%" 
+                                                library="images" 
+                                                name="logo_salud.png"/>
                             </div>                            
                             <div class="left-align">
                                 <h:form id="login-form">
@@ -30,47 +35,75 @@
                                     <p:messages autoUpdate="true"/>
                                     <div class="row">
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.nombresFuncionario}" id="nombresFuncionario" label="Nombres Funcionario"/>
-                                            <h:outputLabel for="nombresFuncionario" value="Nombres de Funcionario:"/>                                                   
+                                            <h:inputText value="#{registroFormBean.nombresFuncionario}" 
+                                                         id="nombresFuncionario" 
+                                                         label="Nombres Funcionario"/>
+                                            <h:outputLabel for="nombresFuncionario" 
+                                                           value="Nombres de Funcionario:"/>                                                   
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.apellidosFuncionario}" id="apellidosFuncionario" label="Apellidos Funcionario"/>
-                                            <h:outputLabel for="apellidosFuncionario" value="Apellidos de Funcionario:"/>                                                   
+                                            <h:inputText value="#{registroFormBean.apellidosFuncionario}" 
+                                                         id="apellidosFuncionario" 
+                                                         label="Apellidos Funcionario"/>
+                                            <h:outputLabel for="apellidosFuncionario" 
+                                                           value="Apellidos de Funcionario:"/>                                                   
                                         </div>
 
                                         <div class="col s12">     
                                             <h:panelGrid columns="1" cellpadding="5">
-                                                <h:outputLabel for="nombre" value="Tipo Documento:"/>                                                                                     
-                                                <p:selectOneMenu id="country" value="#{registroFormBean.country}" style="width: 100%">                                               
-                                                    <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
-                                                    <f:selectItems value="#{registroFormBean.countries}" />
-                                                </p:selectOneMenu>  
+                                                <p:outputLabel value="Tipo Documento:" />
+                                                <p:selectOneMenu id="menu" 
+                                                                 value="#{registroFormBean.tipoDocumento}" 
+                                                                 style="width:100%" class="form-control input_form">
+                                                    <f:selectItem itemValue="0" 
+                                                                  itemLabel="Seleccionar Tipo Documento"/>
+                                                    <f:selectItems value="#{registroFormBean.listaTipoDocumentoDto}" 
+                                                                   var="documento" 
+                                                                   itemLabel="#{documento.descripcion}" 
+                                                                   itemValue="#{documento.id}"/>                                                 
+                                                </p:selectOneMenu>
                                             </h:panelGrid>
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputSecret value="#{registro.claveUsuario}" id="documento" label="password"/>
-                                            <h:outputLabel for="password" value="Documento:" />                                                    
+                                            <h:inputText value="#{registroFormBean.documentoFuncionario}" 
+                                                         id="documentoFuncionario" 
+                                                         label="Documento Funcionario"/>
+                                            <h:outputLabel for="documentoFuncionario" 
+                                                           value="Documento:" />                                                    
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registro.correoUsuario}" id="correo" label="correo"/>
-                                            <h:outputLabel for="correo" value="Correo Usuario:"/>                                                   
+                                            <h:inputText value="#{registroFormBean.correoFuncionario}" 
+                                                         id="correoFuncionario" 
+                                                         label="Correo Usuario: "/>
+                                            <h:outputLabel for="correoFuncionario" 
+                                                           value="Correo Usuario:"/>                                                   
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputSecret value="#{registro.conClaveUsuario}" id="telefono" label="conpassword"/>
-                                            <h:outputLabel for="telefono" value="Telefono Funcionario:" />                                                    
+                                            <h:inputText value="#{registroFormBean.telefonoFuncionario}" 
+                                                         id="telefonoFuncionario" 
+                                                         label="Telefono Funcionario:"/>
+                                            <h:outputLabel for="telefonoFuncionario" 
+                                                           value="Telefono Funcionario:" />                                                    
                                         </div>                                       
 
                                         <div class="col s12 input-field">
-                                            <h:inputSecret value="#{registro.conClaveUsuario}" id="password" label="conpassword"/>
-                                            <h:outputLabel for="password" value="Contraseña:" />                                                    
+                                            <h:inputText value="#{registroFormBean.contrasenaFuncionario}" 
+                                                         id="contrasenaFuncionario" 
+                                                         label="Contraseña:"/>
+                                            <h:outputLabel for="contrasenaFuncionario" 
+                                                           value="Contraseña:" />                                                    
                                         </div>
 
-                                        <div class="col s12 input-field" style="text-align: center">
-                                            <p:commandLink id="loginButton" value="Registrar Usuario" style="margin-left: 20px; margin-right: 20px" styleClass="btn btn-Large" action="#{registro.registrar()}"/>                                            
+                                        <div class="col s12 input-field" 
+                                             style="text-align: center">
+                                            <p:commandLink id="loginButton" value="Registrar Usuario" 
+                                                           style="margin-left: 20px; margin-right: 20px" 
+                                                           styleClass="btn btn-Large" 
+                                                           action="#{registroFormBean.registrar()}"/>                                            
                                         </div>                                                                                                                                               
                                     </div>
                                 </h:form>
