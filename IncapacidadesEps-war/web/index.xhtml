@@ -1,33 +1,123 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f = "http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f = "http://java.sun.com/jsf/core">
+
     <h:head>
-        <title>Facelet Title</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <!--h:outputStylesheet library="css" name="materialize.min.css"/-->
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+        <!--h:outputScript library="js" name="materialize.min.js"/-->
+        <title>CITINMED SALUD</title>
     </h:head>
-    <h:body>       
-        <h:form>
-            <p:tabMenu activeIndex="#{param.i}">
-                <p:menuitem value="Overview"  icon="pi pi-star">
-                    <f:param name="i" value="0" />
-                </p:menuitem>
-                <p:menuitem value="Demos"  icon="pi pi-search">
-                    <f:param name="i" value="1" />
-                </p:menuitem>
-                <p:menuitem value="Documentation"  icon="pi pi-file">
-                    <f:param name="i" value="2" />
-                </p:menuitem>
-                <p:menuitem value="Support" icon="pi pi-briefcase">
-                    <f:param name="i" value="3" />
-                </p:menuitem>
-                <p:menuitem value="Social" icon="pi pi-user">
-                    <f:param name="i" value="4" />
-                </p:menuitem>
-            </p:tabMenu>
-        </h:form>
 
+    <h:body styleClass="cyan lighten-5 bgimg">
+        <div id="top">
+            <ui:insert name="top">
+                <div style="text-align: center">
+                    <p:graphicImage class="responsive-img"  
+                                    style="width: 50%"                                    
+                                    library="images" 
+                                    name="logo_salud.png"/>
+                </div>
+                <div style="width: auto">
+                    <h:form id="menuform">
+                        <p:tabMenu activeIndex="#{param.i}">
+                            <p:menuitem
+                                value="Inicio"
+                                outcome="index" 
+                                icon=" ui-icon-home">
+                                <f:param 
+                                    name="i" 
+                                    value="0" />
+                            </p:menuitem>
+
+                            <p:menuitem 
+                                value="Ver Citas" 
+                                outcome="faces/citas" 
+                                icon=" ui-icon-calendar">
+                                <f:param 
+                                    name="i" 
+                                    value="1" />
+                            </p:menuitem>
+
+                            <p:menuitem 
+                                value="Ver Pacientes" 
+                                outcome="faces/pacientes" 
+                                icon="ui-icon-person">
+                                <f:param 
+                                    name="i" 
+                                    value="2" />
+                            </p:menuitem>    
+
+                            <p:menuitem 
+                                value="Ver Incapacidades" 
+                                outcome="faces/incapacidades" 
+                                icon="ui-icon-star">
+                                <f:param 
+                                    name="i" 
+                                    value="3" />
+                            </p:menuitem>    
+
+                            <p:menuitem 
+                                value="Ver Funcionarios" 
+                                outcome= "index" 
+                                icon="ui-icon-person">
+                                <f:param 
+                                    name="i" 
+                                    value="4" />
+                            </p:menuitem>
+
+                            <p:menuitem 
+                                value="Ver Eps" 
+                                outcome="index" 
+                                icon="ui-icon-note">
+                                <f:param 
+                                    name="i" 
+                                    value="5" />
+                            </p:menuitem>                    
+                        </p:tabMenu> 
+                    </h:form>
+                </div>                
+            </ui:insert>
+        </div>
+
+        <div>           
+            <div id="content" class="center_content">
+                <ui:insert name="content">
+                    <h2>CITINMED Salud</h2> 
+                    Es un Software para registro y control de citas médicas y validación de incapacidades
+                    <p:contentFlow value="#{indexFormBean.images}" var="image">
+                        <p:graphicImage name="images/salud/#{image}" styleClass="content" />
+                        <div class="caption">#{image}</div>
+                    </p:contentFlow>
+                </ui:insert>
+            </div>
+        </div>
+
+        <div id="bottom" align="center">
+            <ui:insert name="bottom" >
+                <div style="width: 70%; text-align: center" class="footerText">
+                    <div>
+                        <p> 
+                            <span> <strong>CITINMED SALUD</strong> </span> 
+                        </p>
+
+                        <p>
+                            <p> <strong>Desarrollado por:</strong> Jonathan Basto</p>
+                            <p> <strong>Teléfono de Contacto:</strong> (+57) 317 416 3733</p>
+                            <p> <strong>Correo:</strong> <a style="color: #00336E;" href="mailto:basto_594@hotmail.com">basto_594@hotmail.com</a></p>
+                        </p>
+                        <hr> </hr>
+                    </div>                      
+                    <a href="#top" id="back-top" style="color:#00336E"> Ir al inicio </a>                                        
+                </div>
+            </ui:insert>
+        </div>
     </h:body>
-</html>
 
+</html>

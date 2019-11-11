@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f = "http://java.sun.com/jsf/core"
+                template="./index.xhtml">
+
+    <ui:define name="content">
+        <div class="center_content">            
+            <h3 style="text-align: center">Control de Citas Médicas</h3>
+            <p:accordionPanel>
+                <p:tab title="Registrar Citas Médicas">
+                    <h:form>
+                        <p:growl autoUpdate="true"/>
+                        <p:messages autoUpdate="true"/>
+                        <div class="row" style="text-align: center">
+                            <div class="col">
+                                <h:outputLabel                                    
+                                    for="idFuncionario" 
+                                    value="Funcionario"/>
+
+                                <p:selectOneMenu id="menuFuncionario" 
+                                                 value="#{citaFormBean.citaFuncionario}">
+
+                                    <f:selectItems value="#{citaFormBean.listaFuncionarioDto}" 
+                                                   var="funcionario" 
+                                                   itemLabel="#{funcionario.funcionarioNombres}" 
+                                                   itemValue="#{funcionario.pkIdFuncionario}"/>                                                 
+                                </p:selectOneMenu>
+                            </div>
+
+                            <div class="col">
+                                <h:outputLabel                                    
+                                    for="idPaciente"
+                                    value="Paciente"/>
+
+                                <p:selectOneMenu 
+                                    id="menuPaciente" 
+                                    value="#{citaFormBean.citaPaciente}">
+                                    <f:selectItems 
+                                        value="#{citaFormBean.listaPacienteDto}" 
+                                        var="paciente" 
+                                        itemLabel="#{paciente.pacienteNombres}" 
+                                        itemValue="#{paciente.pkIdPaciente}"/>                                                 
+                                </p:selectOneMenu>
+                            </div>   
+
+                            <div class="col">
+                                <h:outputLabel                                     
+                                    for="horaProgramada" 
+                                    value="Hora Programada"/>
+
+                                <p:calendar
+                                    id="horaProgramada" 
+                                    pattern="yyyy/MM/dd HH:mm"
+                                    value="#{citaFormBean.citaHoraProgramada}"                                   
+                                    mask="true"/>
+                            </div>  
+
+                            <div class="col">
+                                <h:outputLabel
+                                    for="horaAtencion" 
+                                    value="Hora Atención"/>
+
+                                <p:calendar
+                                    id="horaAtencion" 
+                                    pattern="yyyy/MM/dd HH:mm"
+                                    value="#{citaFormBean.citaHoraAtencion}"                                   
+                                    mask="true"/>                                                 
+                            </div> 
+
+                            <div class="col">                               
+                                <h:outputLabel 
+                                    for="descripcion" 
+                                    value="Descripcion"/>
+
+                                <h:inputText 
+                                    value="#{citaFormBean.citaDescripcion}" 
+                                    id="descripcion"/>                                    
+                            </div> 
+
+                            <div class="col">                               
+                                <h:outputLabel 
+                                    for="aplicaIncapacidad" 
+                                    value="¿Aplica Incapacidad?"/>
+
+                                <p:selectBooleanCheckbox 
+                                    value="#{citaFormBean.citaAplicaIncapacidad}" 
+                                    itemLabel="Incapacidad"/>                                                                   
+                            </div>                            
+                        </div>
+                        <div class="col" style="margin: 20px; text-align: center">                            
+                            <h:commandButton 
+                                action="#{citaFormBean.registrarCita()}" 
+                                value="Registrar Cita"
+                                style="margin-left: 20px; margin-right: 20px" 
+                                styleClass="btn btn-primary">
+                                <f:param name="confirmButton"/>
+                            </h:commandButton>
+                        </div> 
+                    </h:form>
+                </p:tab>
+
+                <p:tab title="Administrar Citas">
+                    <h:panelGrid columns="1" cellpadding="5" style="background-color: white">                        
+                        <h:form id="form">
+                            <h:dataTable 
+                                binding="#{table}" 
+                                value="#{citaFormBean.listaCitaDto}" 
+                                var="cita" 
+                                styleClass="table table-striped table-bordered tableUpdated">
+
+                                <p:column>
+                                    <f:facet name="header">Id</f:facet>
+                                    <h:outputText value="#{cita.pkIdCita}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Funcionario</f:facet>
+                                    <h:outputText value="#{cita.citaFuncionario}" />                
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Paciente</f:facet>
+                                    <h:outputText value="#{cita.citaPaciente}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Hora Programada</f:facet>
+                                    <h:outputText value="#{cita.citaHoraProgramada}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Hora Atención</f:facet>
+                                    <h:outputText value="#{cita.citaHoraAtencion}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Descripción</f:facet>
+                                    <h:outputText value="#{cita.citaDescripcion}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Incapacidad</f:facet>
+                                    <h:outputText value="#{cita.citaAplicaIncapacidad}" />
+                                </p:column>
+
+                                <h:column>
+                                    <f:facet name="header">Editar</f:facet>
+                                    <p:commandButton
+                                        update=":j_idt29:form:bookEdit"                                        
+                                        oncomplete="PF('editDialog').show()"
+                                        value="Editar" 
+                                        styleClass="btn btn-primary">
+                                        <f:setPropertyActionListener 
+                                            value="#{cita}" 
+                                            target="#{citaFormBean.citaSelect}"/>                                        
+                                    </p:commandButton>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Borrar</f:facet>
+                                    <h:commandButton action="#{citaFormBean.borrarCitaPorId(cita.pkIdCita)}" 
+                                                     value="Eliminar" 
+                                                     styleClass="btn btn-danger" />
+                                </h:column>                              
+                            </h:dataTable>
+
+                            <p:dialog header="Editar Cita" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                <p:outputPanel id="bookEdit" style="text-align:center;">
+                                    <p:panelGrid  columns="2" rendered="#{not empty citaFormBean.citaSelect}" columnClasses="label,value">
+
+                                        <h:outputText value="Id Cita" />
+                                        <p:inputText 
+                                            value="#{citaFormBean.citaSelect.pkIdCita}" 
+                                            disabled="true"/>
+
+                                        <h:outputText value="Funcionario" />
+                                        <p:inputText 
+                                            value="#{citaFormBean.citaSelect.citaFuncionario}"
+                                            disabled="true"/>
+
+                                        <h:outputText value="Paciente" />
+                                        <p:inputText 
+                                            value="#{citaFormBean.citaSelect.citaPaciente}" 
+                                            disabled="true"/>
+
+                                        <h:outputText value="Hora Programada" />                                        
+                                        <p:calendar
+                                            pattern="yyyy/MM/dd HH:mm"
+                                            value="#{citaFormBean.citaSelect.citaHoraProgramada}"                                   
+                                            mask="true"/> 
+
+                                        <h:outputText value="Hora Atención" />
+                                        <p:calendar
+                                            pattern="yyyy/MM/dd HH:mm"
+                                            value="#{citaFormBean.citaSelect.citaHoraAtencion}"                                   
+                                            mask="true"/>                                         
+
+                                        <h:outputText value="Descripción" />
+                                        <p:inputText value="#{citaFormBean.citaSelect.citaDescripcion}" />
+
+                                        <h:outputText value="¿Aplica Incapacidad?"/>
+                                        <p:selectBooleanCheckbox 
+                                            value="#{citaFormBean.citaSelect.citaAplicaIncapacidad}" 
+                                            itemLabel="Incapacidad"/> 
+                                    </p:panelGrid>
+
+                                    <p:commandButton 
+                                        value="Actualizar" 
+                                        icon="ui-icon-disk" 
+                                        action="#{citaFormBean.editarCita()}"/>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>                        
+                    </h:panelGrid>                                                  
+                </p:tab>
+            </p:accordionPanel>                          
+        </div> 
+    </ui:define>
+
+</ui:composition>

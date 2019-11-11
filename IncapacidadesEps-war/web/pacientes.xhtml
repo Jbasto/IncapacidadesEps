@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f = "http://java.sun.com/jsf/core"
+                template="./index.xhtml">
+
+    <ui:define name="content">
+        <div class="center_content">            
+            <h3 style="text-align: center">Control de Pacientes</h3>
+            <p:accordionPanel>
+                <p:tab title="Registrar Pacientes">
+                    <h:form style="width: 70%" >
+                        <p:growl autoUpdate="true"/>
+                        <p:messages autoUpdate="true"/>
+                        <p:panelGrid columns="2">
+
+                            <h:outputLabel
+                                for="idNombre" 
+                                value="Nombres"/>
+                            <h:inputText 
+                                value="#{pacienteFormBean.pacienteNombres}" 
+                                id="idNombre"/>
+
+                            <h:outputLabel                                    
+                                for="idApellidos" 
+                                value="Apellidos"/>
+                            <h:inputText 
+                                value="#{pacienteFormBean.pacienteApellidos}" 
+                                id="idApellidos"/> 
+
+                            <h:outputLabel                                    
+                                for="idTipoDoc"
+                                value="Tipo Documento"/>
+                            <p:selectOneMenu 
+                                id="menuTipoDocumento" 
+                                value="#{pacienteFormBean.tipoDocumentoPaciente}">
+                                <f:selectItems 
+                                    value="#{pacienteFormBean.listaTipoDocumentoDto}" 
+                                    var="documento" 
+                                    itemLabel="#{documento.descripcion}" 
+                                    itemValue="#{documento.descripcion}"/>                                                 
+                            </p:selectOneMenu>
+
+                            <h:outputLabel                                    
+                                for="idDocumento" 
+                                value="Documento"/>
+                            <h:inputText 
+                                value="#{pacienteFormBean.pacienteDocumento}" 
+                                id="idDocumento"/>
+
+                            <h:outputLabel                                    
+                                for="idEps"
+                                value="Eps"/>
+                            <p:selectOneMenu 
+                                id="menuEps" 
+                                value="#{pacienteFormBean.epsPaciente}">
+                                <f:selectItems 
+                                    value="#{pacienteFormBean.listaEps}" 
+                                    var="eps" 
+                                    itemLabel="#{eps.epsNombre}" 
+                                    itemValue="#{eps.epsNombre}"/>                                                 
+                            </p:selectOneMenu>                                                     
+
+                            <div></div>
+                            <h:commandButton 
+                                action="#{pacienteFormBean.registrarPaciente()}" 
+                                value="Registrar Paciente"
+                                styleClass="btn btn-primary">
+                                <f:param name="confirmButton"/>
+                            </h:commandButton>
+                        </p:panelGrid>                        
+                    </h:form>
+                </p:tab>
+
+                <p:tab title="Administrar Pacientes">
+                    <h:panelGrid columns="1" cellpadding="5" style="background-color: white">                        
+                        <h:form id="form">
+                            <h:dataTable 
+                                binding="#{table}" 
+                                value="#{pacienteFormBean.listaPacienteDto}" 
+                                var="paciente" 
+                                styleClass="table table-striped table-bordered tableUpdated">
+
+                                <p:column>
+                                    <f:facet name="header">Id</f:facet>
+                                    <h:outputText value="#{paciente.pkIdPaciente}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Nombres</f:facet>
+                                    <h:outputText value="#{paciente.pacienteNombres}" />                
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Apellidos</f:facet>
+                                    <h:outputText value="#{paciente.pacienteApellidos}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Tipo Documento</f:facet>
+                                    <h:outputText value="#{paciente.tipoDocumentoPaciente}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Documento</f:facet>
+                                    <h:outputText value="#{paciente.pacienteDocumento}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Eps</f:facet>
+                                    <h:outputText value="#{paciente.epsPaciente}" />
+                                </p:column>
+
+                                <h:column>
+                                    <f:facet name="header">Editar</f:facet>
+                                    <p:commandButton
+                                        update=":j_idt29:form:bookEdit"                                        
+                                        oncomplete="PF('editDialog').show()"
+                                        value="Editar" 
+                                        styleClass="btn btn-primary">
+                                        <f:setPropertyActionListener 
+                                            value="#{paciente}" 
+                                            target="#{pacienteFormBean.pacienteSelect}"/>                                        
+                                    </p:commandButton>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Borrar</f:facet>
+                                    <h:commandButton action="#{pacienteFormBean.borrarPacientePorId(paciente.pkIdPaciente)}" 
+                                                     value="Eliminar" 
+                                                     styleClass="btn btn-danger" />
+                                </h:column>                              
+                            </h:dataTable>
+
+                            <p:dialog header="Editar Paciente" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                <p:outputPanel id="bookEdit" style="text-align:center;">
+                                    <p:panelGrid  columns="2" rendered="#{not empty pacienteFormBean.pacienteSelect}" columnClasses="label,value">
+
+                                        <h:outputText value="Id Paciente" />
+                                        <p:inputText value="#{pacienteFormBean.pacienteSelect.pkIdPaciente}" 
+                                                     disabled="true"/>
+
+                                        <h:outputText value="Nombre" />
+                                        <p:inputText value="#{pacienteFormBean.pacienteSelect.pacienteNombres}"/>
+
+                                        <h:outputText value="Apellidos" />
+                                        <p:inputText value="#{pacienteFormBean.pacienteSelect.pacienteApellidos}"/>
+
+                                        <h:outputText value="Tipo Documento" />
+                                        <p:selectOneMenu 
+                                            id="menuTipoDocumento" 
+                                            value="#{pacienteFormBean.pacienteSelect.tipoDocumentoPaciente}">
+                                            <f:selectItems 
+                                                value="#{pacienteFormBean.listaTipoDocumentoDto}" 
+                                                var="documento" 
+                                                itemLabel="#{documento.descripcion}" 
+                                                itemValue="#{documento.descripcion}"/>                                                 
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Documento" />
+                                        <p:inputText value="#{pacienteFormBean.pacienteSelect.pacienteDocumento}"/>
+
+                                        <h:outputText value="Eps" />                                       
+                                        <p:selectOneMenu 
+                                            id="menuEps"                                             
+                                            value="#{pacienteFormBean.pacienteSelect.epsPaciente}">
+                                            <f:selectItems 
+                                                value="#{pacienteFormBean.listaEps}" 
+                                                var="eps"                                               
+                                                itemLabel="#{eps.epsNombre}" 
+                                                itemValue="#{eps.epsNombre}"/>                                                 
+                                        </p:selectOneMenu>                                        
+                                    </p:panelGrid>
+
+                                    <p:commandButton 
+                                        value="Actualizar" 
+                                        icon="ui-icon-disk" 
+                                        action="#{pacienteFormBean.editarCita()}"/>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>                        
+                    </h:panelGrid>                                                  
+                </p:tab>
+            </p:accordionPanel>                          
+        </div> 
+    </ui:define>
+
+</ui:composition>

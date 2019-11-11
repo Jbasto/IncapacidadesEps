@@ -28,18 +28,18 @@
                                                 style="width: 80%" 
                                                 library="images" 
                                                 name="logo_salud.png"/>
-                            </div>                            
+                            </div>
                             <div class="left-align">
                                 <h:form id="login-form">
                                     <p:growl autoUpdate="true"/>
                                     <p:messages autoUpdate="true"/>
                                     <div class="row">
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.nombresFuncionario}" 
+                                            <h:inputText value="#{registroFormBean.nombresFuncionario}"
                                                          id="nombresFuncionario" 
                                                          label="Nombres Funcionario"/>
                                             <h:outputLabel for="nombresFuncionario" 
-                                                           value="Nombres de Funcionario:"/>                                                   
+                                                           value="Nombres de Funcionario:"/>
                                         </div>
 
                                         <div class="col s12 input-field">
@@ -47,15 +47,15 @@
                                                          id="apellidosFuncionario" 
                                                          label="Apellidos Funcionario"/>
                                             <h:outputLabel for="apellidosFuncionario" 
-                                                           value="Apellidos de Funcionario:"/>                                                   
+                                                           value="Apellidos de Funcionario:"/>
                                         </div>
 
-                                        <div class="col s12">     
+                                        <div class="col s12">
                                             <h:panelGrid columns="1" cellpadding="5">
-                                                <p:outputLabel value="Tipo Documento:" />
+                                                <!--p:outputLabel value="Tipo Documento:" /-->
                                                 <p:selectOneMenu id="menu" 
                                                                  value="#{registroFormBean.tipoDocumento}" 
-                                                                 style="width:100%" class="form-control input_form">
+                                                                 style="width:100%">
                                                     <f:selectItem itemValue="0" 
                                                                   itemLabel="Seleccionar Tipo Documento"/>
                                                     <f:selectItems value="#{registroFormBean.listaTipoDocumentoDto}" 
@@ -71,7 +71,7 @@
                                                          id="documentoFuncionario" 
                                                          label="Documento Funcionario"/>
                                             <h:outputLabel for="documentoFuncionario" 
-                                                           value="Documento:" />                                                    
+                                                           value="Documento:" />
                                         </div>
 
                                         <div class="col s12 input-field">
@@ -79,7 +79,7 @@
                                                          id="correoFuncionario" 
                                                          label="Correo Usuario: "/>
                                             <h:outputLabel for="correoFuncionario" 
-                                                           value="Correo Usuario:"/>                                                   
+                                                           value="Correo Usuario:"/>
                                         </div>
 
                                         <div class="col s12 input-field">
@@ -87,8 +87,8 @@
                                                          id="telefonoFuncionario" 
                                                          label="Telefono Funcionario:"/>
                                             <h:outputLabel for="telefonoFuncionario" 
-                                                           value="Telefono Funcionario:" />                                                    
-                                        </div>                                       
+                                                           value="Telefono Funcionario:" />
+                                        </div>
 
                                         <div class="col s12 input-field">
                                             <h:inputText value="#{registroFormBean.contrasenaFuncionario}" 
@@ -103,8 +103,14 @@
                                             <p:commandLink id="loginButton" value="Registrar Usuario" 
                                                            style="margin-left: 20px; margin-right: 20px" 
                                                            styleClass="btn btn-Large" 
-                                                           action="#{registroFormBean.registrar()}"/>                                            
-                                        </div>                                                                                                                                               
+                                                           action="#{registroFormBean.registrar()}"/>
+                                            <p:commandLink id="registerButton" 
+                                                           value="#{msg.lbl_volver}" 
+                                                           style="margin-left: 20px; margin-right: 20px" 
+                                                           styleClass="btn btn-Large" 
+                                                           onclick="history.go(-1)"
+                                                           />
+                                        </div>
                                     </div>
                                 </h:form>
                             </div>

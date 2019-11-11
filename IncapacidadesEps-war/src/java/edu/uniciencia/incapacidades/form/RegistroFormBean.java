@@ -101,19 +101,15 @@ public class RegistroFormBean {
         this.listaTipoDocumentoDto = listaTipoDocumentoDto;
     }
 
-    public List<TipoDocumentoDto> getTipoDocumentoDto() {
-        //List<TipoDocumentoDto> listaTipoDocDto
+    public List<TipoDocumentoDto> getTipoDocumentoDto() {       
         listaTipoDocumentoDto = funcionarioEjbFormBean.getTipoDocumento();
-        /*if (listaTipoDocDto != null) {
-            listaTipoDocumentoDto.addAll(listaTipoDocDto);// = listaTipoDocDto;
-        }*/
         return listaTipoDocumentoDto;
     }
 
     public String registrar() {
         if (documentoFuncionario == null || documentoFuncionario.length() == 0
                 && nombresFuncionario == null || nombresFuncionario.length() == 0
-                && apellidosFuncionario == null || apellidosFuncionario.length() == 0               
+                && apellidosFuncionario == null || apellidosFuncionario.length() == 0
                 && documentoFuncionario == null || documentoFuncionario.length() == 0
                 && correoFuncionario == null || correoFuncionario.length() == 0
                 && telefonoFuncionario == null || telefonoFuncionario.length() == 0
@@ -142,5 +138,9 @@ public class RegistroFormBean {
     @PostConstruct
     public void init() {
         getTipoDocumentoDto();
+    }
+
+    public String volver() {
+        return null;
     }
 }

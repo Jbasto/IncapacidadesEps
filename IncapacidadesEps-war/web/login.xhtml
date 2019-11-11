@@ -9,9 +9,9 @@
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/> 
 
-        <h:outputScript library="js" name="materialize.min.js"></h:outputScript>
-        <h:outputStylesheet library="css" name="materialize.min.css"></h:outputStylesheet>
-        <h:outputStylesheet library="css" name="cssLayout.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="materialize.min.js"/>
+        <h:outputStylesheet library="css" name="materialize.min.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
     </h:head> 
 
     <h:body styleClass="cyan lighten-5 bgimg">       
@@ -19,29 +19,50 @@
             <div class="row">
                 <div class="col s6 offset-s3">
                     <div class="card">
-                        <div class="card-content" style="border-radius: 50px">                            
-                            <div id="logo" style="width: 100%; text-align: center">
-                                <p:graphicImage class="responsive-img" style="width: 80%" library="images" name="logo_salud.png"></p:graphicImage>                          
-                            </div>                            
+                        <div class="card-content" 
+                             style="border-radius: 50px">                            
+                            <div id="logo" 
+                                 style="width: 100%; text-align: center">
+                                <p:graphicImage class="responsive-img" 
+                                                style="width: 80%" 
+                                                library="images" 
+                                                name="logo_salud.png"/>
+                            </div>
                             <div class="left-align">
                                 <h:form id="login-form">
                                     <p:growl autoUpdate="true"/>
                                     <p:messages autoUpdate="true"/>
                                     <div class="row">
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{loginFormBean.documento}" id="documento" label="#{msg.lbl_login_documento}" requiredMessage="Documento obligatorio"/>
-                                            <h:outputLabel for="documento" value="#{msg.lbl_login_documento}"/>                                                   
+                                            <h:inputText value="#{loginFormBean.documento}" 
+                                                         id="documento" 
+                                                         label="#{msg.lbl_login_documento}"/>
+                                            <h:outputLabel for="documento" 
+                                                           value="#{msg.lbl_login_documento}"/>                                                   
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputSecret value="#{loginFormBean.contrasena}" id="contrasena" label="#{msg.lbl_login_contrasena}" requiredMessage="Contraseña obligatoria"/>
-                                            <h:outputLabel for="contrasena" value="#{msg.lbl_login_contrasena}" />                                                    
+                                            <h:inputSecret value="#{loginFormBean.contrasena}" 
+                                                           id="contrasena" 
+                                                           label="#{msg.lbl_login_contrasena}" 
+                                                           />
+                                            <h:outputLabel for="contrasena" 
+                                                           value="#{msg.lbl_login_contrasena}" />                                                    
                                         </div>
 
-                                        <div class="col s12 input-field" style="text-align: center">
-                                            <p:commandLink id="loginButton" value="#{msg.lbl_login_iniciar}" style="margin-left: 20px; margin-right: 20px" styleClass="btn btn-Large" action="#{loginFormBean.enviarAceptar()}"/> 
-                                            <p:commandLink id="registerButton" value="#{msg.lbl_login_registrar}" style="margin-left: 20px; margin-right: 20px" styleClass="btn btn-Large" action="#{loginFormBean.registrar()}"/> 
-                                        </div>                                                                                                                                               
+                                        <div class="col s12 input-field" 
+                                             style="text-align: center">
+                                            <p:commandLink id="loginButton" 
+                                                           value="#{msg.lbl_login_iniciar}" 
+                                                           style="margin-left: 20px; margin-right: 20px" 
+                                                           styleClass="btn btn-Large" 
+                                                           action="#{loginFormBean.enviarAceptar()}"/> 
+                                            <p:commandLink id="registerButton" 
+                                                           value="#{msg.lbl_login_registrar}" 
+                                                           style="margin-left: 20px; margin-right: 20px" 
+                                                           styleClass="btn btn-Large" 
+                                                           action="#{loginFormBean.registrar()}"/> 
+                                        </div>
                                     </div>
                                 </h:form>
                             </div>

@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f = "http://java.sun.com/jsf/core"
+                template="./index.xhtml">
+
+    <ui:define name="content">
+        <div class="center_content">            
+            <h3 style="text-align: center">Control de Incapacidades</h3>
+            <p:accordionPanel>
+                <p:tab title="Registrar Inapacidad">
+                    <h:form style="width: 70%" >
+                        <p:growl autoUpdate="true"/>
+                        <p:messages autoUpdate="true"/>
+                        <p:panelGrid columns="2">
+
+                            <h:outputLabel
+                                for="idFechaInicio" 
+                                value="Fecha Inicio"/>
+                            <p:calendar
+                                pattern="yyyy/MM/dd"
+                                value="#{incapacidadesFormBean.incapacidadFechaInicio}"                                   
+                                mask="true"/>
+
+                            <h:outputLabel                                    
+                                for="idFechaFin" 
+                                value="Fecha Fin"/>
+                            <p:calendar
+                                pattern="yyyy/MM/dd"
+                                value="#{incapacidadesFormBean.incapacidadFechaFin}"                                   
+                                mask="true"/> 
+
+                            <h:outputLabel value="Tipo Incapacidad"/>
+                            <p:selectOneMenu 
+                                value="#{incapacidadesFormBean.tipoIncapacidad}">
+                                <f:selectItems 
+                                    value="#{incapacidadesFormBean.listaTipoIncapacidadDto}" 
+                                    var="tipoIncapcidad" 
+                                    itemLabel="#{tipoIncapcidad.tipoIncapacidadDescripcion}" 
+                                    itemValue="#{tipoIncapcidad.tipoIncapacidadDescripcion}"/>                                                 
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="Estado Incapacidad"/>
+                            <p:selectOneMenu value="#{incapacidadesFormBean.estadoIncapacidad}">
+                                <f:selectItems 
+                                    value="#{incapacidadesFormBean.listaEstadoIncapacidadDto}" 
+                                    var="estadoIncapacidad" 
+                                    itemLabel="#{estadoIncapacidad.estadoIncapacidadDescripcion}" 
+                                    itemValue="#{estadoIncapacidad.estadoIncapacidadDescripcion}"/>                                                 
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="Cita - Paciente"/>
+                            <p:selectOneMenu value="#{incapacidadesFormBean.citaNombre}">
+                                <f:selectItems 
+                                    value="#{incapacidadesFormBean.listaPacienteCitaDto}" 
+                                    var="citaPaciente" 
+                                    itemLabel="#{citaPaciente.pacienteNombres}" 
+                                    itemValue="#{citaPaciente.pacienteNombres}"/>                                                 
+                            </p:selectOneMenu>                                                     
+
+                            <div></div>
+                            <h:commandButton 
+                                action="#{incapacidadesFormBean.registrarIncapacidad()}" 
+                                value="Registrar Incapacidad"
+                                styleClass="btn btn-primary">
+                                <f:param name="confirmButton"/>
+                            </h:commandButton>
+                        </p:panelGrid>                        
+                    </h:form>
+                </p:tab>
+
+                <p:tab title="Administrar Incapacidades">
+                    <h:panelGrid columns="1" cellpadding="5" style="background-color: white">                        
+                        <h:form id="form">
+                            <h:dataTable 
+                                binding="#{table}" 
+                                value="#{incapacidadesFormBean.listaIncapacidadesDto}" 
+                                var="incapcidad" 
+                                styleClass="table table-striped table-bordered tableUpdated">
+
+                                <p:column>
+                                    <f:facet name="header">Id</f:facet>
+                                    <h:outputText value="#{incapcidad.pkIdIncapacidad}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Fecha Inicio</f:facet>
+                                    <h:outputText value="#{incapcidad.incapacidadFechaInicio}" />                
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Fecha Fin</f:facet>
+                                    <h:outputText value="#{incapcidad.incapacidadFechaFin}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Tipo Incapacidad</f:facet>
+                                    <h:outputText value="#{incapcidad.tipoIncapacidad}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Estado Incapcidad</f:facet>
+                                    <h:outputText value="#{incapcidad.estadoIncapacidad}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">Cita - Paciente</f:facet>
+                                    <h:outputText value="#{incapcidad.citaNombre}" />
+                                </p:column>
+
+                                <h:column>
+                                    <f:facet name="header">Editar</f:facet>
+                                    <p:commandButton
+                                        update=":j_idt29:form:bookEdit"                                        
+                                        oncomplete="PF('editDialog').show()"
+                                        value="Editar" 
+                                        styleClass="btn btn-primary">
+                                        <f:setPropertyActionListener 
+                                            value="#{incapcidad}" 
+                                            target="#{incapacidadesFormBean.incapcidadSelect}"/>                                        
+                                    </p:commandButton>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Borrar</f:facet>
+                                    <h:commandButton action="#{incapacidadesFormBean.borrarIncapacidadPorId(incapcidad.pkIdIncapacidad)}" 
+                                                     value="Eliminar" 
+                                                     styleClass="btn btn-danger" />
+                                </h:column>                              
+                            </h:dataTable>
+
+                            <p:dialog header="Editar Paciente" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                <p:outputPanel id="bookEdit" style="text-align:center;">
+                                    <p:panelGrid  columns="2" rendered="#{not empty incapacidadesFormBean.incapcidadSelect}" columnClasses="label,value">
+
+                                        <h:outputText value="Id Incapacidad" />
+                                        <p:inputText value="#{incapacidadesFormBean.incapcidadSelect.pkIdIncapacidad}" 
+                                                     disabled="true"/>
+
+                                        <h:outputText value="Fecha Inicio" />
+                                        <p:calendar pattern="yyyy/MM/dd"
+                                                    value="#{incapacidadesFormBean.incapcidadSelect.incapacidadFechaInicio}"                                   
+                                                    mask="true"/> 
+
+                                        <h:outputText value="Fecha Fin" />
+                                        <p:calendar pattern="yyyy/MM/dd"
+                                                    value="#{incapacidadesFormBean.incapcidadSelect.incapacidadFechaFin}"                                   
+                                                    mask="true"/> 
+
+                                        <h:outputText value="Tipo Incapacidad" />
+                                        <p:selectOneMenu value="#{incapacidadesFormBean.incapcidadSelect.tipoIncapacidad}">
+                                            <f:selectItems 
+                                                value="#{incapacidadesFormBean.listaTipoIncapacidadDto}" 
+                                                var="tipoIncapacidad" 
+                                                itemLabel="#{tipoIncapacidad.tipoIncapacidadDescripcion}" 
+                                                itemValue="#{tipoIncapacidad.tipoIncapacidadDescripcion}"/>                                                 
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Estado Incapacidad" />
+                                        <p:selectOneMenu value="#{incapacidadesFormBean.incapcidadSelect.estadoIncapacidad}">
+                                            <f:selectItems 
+                                                value="#{incapacidadesFormBean.listaEstadoIncapacidadDto}" 
+                                                var="estadoIncapacidad" 
+                                                itemLabel="#{estadoIncapacidad.estadoIncapacidadDescripcion}" 
+                                                itemValue="#{estadoIncapacidad.estadoIncapacidadDescripcion}"/>                                                 
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Cita - Paciente" />                                       
+                                        <p:selectOneMenu value="#{incapacidadesFormBean.incapcidadSelect.citaNombre}">
+                                            <f:selectItems 
+                                                value="#{incapacidadesFormBean.listaPacienteCitaDto}" 
+                                                var="pacienteCita" 
+                                                itemLabel="#{pacienteCita.pacienteNombres}" 
+                                                itemValue="#{pacienteCita.pacienteNombres}"/>                                                 
+                                        </p:selectOneMenu>                                       
+                                    </p:panelGrid>
+
+                                    <p:commandButton 
+                                        value="Actualizar" 
+                                        icon="ui-icon-disk" 
+                                        action="#{incapacidadesFormBean.editarIncapacidad()}"/>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>                        
+                    </h:panelGrid>                                                  
+                </p:tab>
+            </p:accordionPanel>                          
+        </div> 
+    </ui:define>
+
+</ui:composition>
