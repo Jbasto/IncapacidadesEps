@@ -69,7 +69,7 @@ public class EpsEjbFormBean implements EpsEjbFormBeanLocal {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public boolean insertEps(String nombre, String nit) {
         try {
-            int id = getIdEps()+ 1;
+            int id = getIdEps() + 1;
             Eps e = new Eps();
             e.setPkIdEps(id);
             e.setEpsNombre(nombre);
@@ -82,7 +82,7 @@ public class EpsEjbFormBean implements EpsEjbFormBeanLocal {
             throw new RuntimeException(ex);
         }
     }
-    
+
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public boolean deleteEpsPorID(int idEps) {
@@ -106,7 +106,7 @@ public class EpsEjbFormBean implements EpsEjbFormBeanLocal {
     public boolean updateEpsPorId(int id, String nombre, String nit) {
         Eps e;
         try {
-            e = em.find(Eps.class, id);            
+            e = em.find(Eps.class, id);
             if (e != null) {
                 e.setEpsNombre(nombre);
                 e.setEpsNit(nit);
@@ -119,5 +119,26 @@ public class EpsEjbFormBean implements EpsEjbFormBeanLocal {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public int count() {
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<Eps> rt = cq.from(Eps.class);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<Eps> findRange(int[] range) {
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Eps.class));
+        javax.persistence.Query q = em.createQuery(cq);
+        q.setMaxResults(range[1] - range[0]);
+        q.setFirstResult(range[0]);
+        return q.getResultList();
     }
 }

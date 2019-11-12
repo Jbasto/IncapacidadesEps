@@ -6,6 +6,7 @@
 package edu.uniciencia.incapacidades.ejb.beans;
 
 import edu.uniciencia.incapacidades.dto.EpsDto;
+import edu.uniciencia.incapacidades.ejb.persistentes.Eps;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -25,4 +26,8 @@ public interface EpsEjbFormBeanLocal {
     boolean deleteEpsPorID(int idEps);
 
     boolean updateEpsPorId(int id, String nombre, String nit);
+    
+    int count();
+    
+    List<Eps> findRange(int[] range);
 }
