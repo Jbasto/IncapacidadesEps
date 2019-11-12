@@ -3,7 +3,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"                
+                xmlns:jsf='http://xmlns.jcp.org/jsf'
                 xmlns:f = "http://java.sun.com/jsf/core"
                 template="./index.xhtml">
 
@@ -37,11 +38,11 @@
                 <p:tab title="Administrar EPS">
                     <h:panelGrid columns="1" cellpadding="5" style="background-color: white">                        
                         <h:form id="form">
-                            <h:dataTable 
-                                binding="#{table}" 
-                                value="#{epsFormBean.listaEpsDto}" 
-                                var="eps" 
-                                styleClass="table table-striped table-bordered tableUpdated">
+                            <h:dataTable binding="#{table}" 
+                                         value="#{epsFormBean.getdtmdl()}" 
+                                         var="eps"  
+                                         rows="5"
+                                         class="table table-responsive table-bordered table-striped">
 
                                 <p:column>
                                     <f:facet name="header">Id</f:facet>
@@ -61,7 +62,7 @@
                                 <h:column>
                                     <f:facet name="header">Editar</f:facet>
                                     <p:commandButton
-                                        update=":j_idt29:form:bookEdit"                                        
+                                        update=":j_idt29:form:epsEdit"                                        
                                         oncomplete="PF('editDialog').show()"
                                         value="Editar" 
                                         styleClass="btn btn-primary">
@@ -79,20 +80,48 @@
                                 </h:column>                              
                             </h:dataTable>
 
+                            <div class="container-fluid">
+                                <div class="col-xs-12">
+
+                                    <button   class="btn btn-default btn-sm" jsf:action="#{epsFormBean.firstPage()}"
+                                              jsf:disabled="#{epsFormBean.pagination.currentPage eq 0}">
+                                        Primera
+                                    </button>
+                                    <button   class="btn btn-default btn-sm" jsf:action="#{epsFormBean.previous}"
+                                              jsf:disabled="#{not epsFormBean.pagination.hasPreviousPage}">
+                                        &lt;
+                                    </button>
+
+                                    <span class="text-primary">#{epsFormBean.pagination.currentPage+1}</span>
+
+                                    <button  class="btn btn-default btn-sm" jsf:disabled="#{not epsFormBean.pagination.hasNextPage}"
+                                             jsf:action="#{epsFormBean.next()}" >
+                                        &gt;
+                                    </button>
+
+                                    <button   class="btn btn-default btn-sm" jsf:action="#{epsFormBean.lastPage()}"
+                                              jsf:disabled="#{epsFormBean.pagination.currentPage eq epsFormBean.pagination.finalPage}">
+                                        Última
+                                    </button>
+
+                                </div>   
+
+                            </div>
+
                             <p:dialog header="Editar Cita" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                                <p:outputPanel id="bookEdit" style="text-align:center;">
+                                <p:outputPanel id="epsEdit" style="text-align:center;">
                                     <p:panelGrid  columns="2" rendered="#{not empty epsFormBean.epsSelect}" columnClasses="label,value">
 
                                         <h:outputText value="Id EPS" />
                                         <p:inputText value="#{epsFormBean.epsSelect.pkIdEps}" 
                                                      disabled="true"/>
-                                        
+
                                         <h:outputText value="Nombre EPS" />
                                         <p:inputText value="#{epsFormBean.epsSelect.epsNombre}" />
-                                        
+
                                         <h:outputText value="NIT" />
                                         <p:inputText value="#{epsFormBean.epsSelect.epsNit}" />
-                                        
+
                                     </p:panelGrid>
 
                                     <p:commandButton 
