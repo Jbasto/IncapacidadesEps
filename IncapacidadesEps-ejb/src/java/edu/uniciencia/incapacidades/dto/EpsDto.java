@@ -19,6 +19,12 @@ public class EpsDto {
         this.epsNombre = epsNombre;
     }
 
+    public EpsDto(int pkIdEps, String epsNombre, String epsNit) {
+        this.pkIdEps = pkIdEps;
+        this.epsNombre = epsNombre;
+        this.epsNit = epsNit;
+    }
+    
     public int getPkIdEps() {
         return pkIdEps;
     }

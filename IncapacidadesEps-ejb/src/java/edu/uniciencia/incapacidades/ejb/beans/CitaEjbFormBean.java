@@ -183,14 +183,14 @@ public class CitaEjbFormBean implements CitaEjbFormBeanLocal {
 
     @Override
     public int getIdCita() {
+        int result;
         try {
             Query query = em.createQuery("select max(c.pkIdCita) from Cita c ");
-            int result = (int) query.getSingleResult();
-
-            return result;
+            result = (int) query.getSingleResult();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            result = 0;
         }
+        return result;
     }
 
     @Override
@@ -259,7 +259,7 @@ public class CitaEjbFormBean implements CitaEjbFormBeanLocal {
         Cita c;
         try {
             c = em.find(Cita.class, id);
-                      
+
             if (c != null) {
                 c.setCitaHoraProgramada(horaProgramada);
                 c.setCitaHoraAtencion(horaAtencion);

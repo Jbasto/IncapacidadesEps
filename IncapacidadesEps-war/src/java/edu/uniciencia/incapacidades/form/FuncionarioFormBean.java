@@ -5,6 +5,7 @@
  */
 package edu.uniciencia.incapacidades.form;
 
+import edu.uniciencia.incapacidades.dto.FuncionarioDto;
 import edu.uniciencia.incapacidades.dto.TipoDocumentoDto;
 import edu.uniciencia.incapacidades.ejb.beans.FuncionarioEjbFormBeanLocal;
 import edu.uniciencia.incapacidades.util.Util;
@@ -21,7 +22,7 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean
 @ApplicationScoped
-public class RegistroFormBean {
+public class FuncionarioFormBean {
 
     @EJB
     private FuncionarioEjbFormBeanLocal funcionarioEjbFormBean;
@@ -29,11 +30,13 @@ public class RegistroFormBean {
     String nombresFuncionario, apellidosFuncionario, documentoFuncionario, correoFuncionario, telefonoFuncionario, contrasenaFuncionario;
     int tipoDocumento;
     List<TipoDocumentoDto> listaTipoDocumentoDto = new ArrayList<>();
+    List<FuncionarioDto> listaFuncionarioDto = new ArrayList<>();
+    FuncionarioDto funcionarioSelect;
 
     /**
      * Creates a new instance of RegistroFormBean
      */
-    public RegistroFormBean() {
+    public FuncionarioFormBean() {
 
     }
 
@@ -93,6 +96,14 @@ public class RegistroFormBean {
         this.tipoDocumento = tipoDocumento;
     }
 
+    public FuncionarioDto getFuncionarioSelect() {
+        return funcionarioSelect;
+    }
+
+    public void setFuncionarioSelect(FuncionarioDto funcionarioSelect) {
+        this.funcionarioSelect = funcionarioSelect;
+    }
+
     public List<TipoDocumentoDto> getListaTipoDocumentoDto() {
         return listaTipoDocumentoDto;
     }
@@ -101,32 +112,40 @@ public class RegistroFormBean {
         this.listaTipoDocumentoDto = listaTipoDocumentoDto;
     }
 
-    public List<TipoDocumentoDto> getTipoDocumentoDto() {       
+    public List<TipoDocumentoDto> getTipoDocumentoDto() {
         listaTipoDocumentoDto = funcionarioEjbFormBean.getTipoDocumento();
         return listaTipoDocumentoDto;
     }
 
+    public List<FuncionarioDto> getListaFuncionarioDto() {
+        listaFuncionarioDto = funcionarioEjbFormBean.getListFuncionarioDto();
+        return listaFuncionarioDto;
+    }
+
+    public void setListaFuncionarioDto(List<FuncionarioDto> listaFuncionarioDto) {
+        this.listaFuncionarioDto = listaFuncionarioDto;
+    }
+
     public String registrar() {
-        if (documentoFuncionario == null || documentoFuncionario.length() == 0
-                && nombresFuncionario == null || nombresFuncionario.length() == 0
-                && apellidosFuncionario == null || apellidosFuncionario.length() == 0
-                && documentoFuncionario == null || documentoFuncionario.length() == 0
-                && correoFuncionario == null || correoFuncionario.length() == 0
-                && telefonoFuncionario == null || telefonoFuncionario.length() == 0
-                && contrasenaFuncionario == null || contrasenaFuncionario.length() == 0) {
+        if (nombresFuncionario.length() == 0
+                && apellidosFuncionario.length() == 0
+                && documentoFuncionario.length() == 0
+                && correoFuncionario.length() == 0
+                && telefonoFuncionario.length() == 0
+                && contrasenaFuncionario.length() == 0) {
 
             Util.addErrorMessage("Los datos de registro son obligatorios.");
         } else {
             boolean insert = funcionarioEjbFormBean.insertFuncionario(nombresFuncionario, apellidosFuncionario, tipoDocumento, documentoFuncionario, correoFuncionario, telefonoFuncionario, contrasenaFuncionario);
 
             if (insert) {
-                Util.addSuccessMessage("Registro Correcto!");
                 nombresFuncionario = "";
                 apellidosFuncionario = "";
                 documentoFuncionario = "";
                 correoFuncionario = "";
                 telefonoFuncionario = "";
                 contrasenaFuncionario = "";
+                Util.addSuccessMessage("Registro Correcto!");
             } else {
                 Util.addErrorMessage("El registro no se pudo realizar puede ser que el usuario ya exista.");
             }
@@ -138,9 +157,34 @@ public class RegistroFormBean {
     @PostConstruct
     public void init() {
         getTipoDocumentoDto();
+        getListaFuncionarioDto();
     }
 
     public String volver() {
         return null;
+    }
+
+    public String borrarFuncionarioPorId(int idFuncionario) {
+        if (funcionarioEjbFormBean.deletePacientePorID(idFuncionario)) {
+            return "faces/funcionarios.xhtml?faces-redirect=true";
+        } else {
+            return null;
+        }
+    }
+
+    public String editarFuncionario() {
+        if (funcionarioEjbFormBean.updatePacientePorId(
+                funcionarioSelect.getPkIdFuncionario(),
+                funcionarioSelect.getFuncionarioNombres(),
+                funcionarioSelect.getFuncionarioApellidos(),
+                funcionarioSelect.getTipoDocumento(),
+                funcionarioSelect.getFuncionarioDocumento(),
+                funcionarioSelect.getFuncionarioCorreo(),
+                funcionarioSelect.getFuncionarioTelefono(),
+                funcionarioSelect.getFuncionarioContrasena())) {
+            return "faces/funcionarios.xhtml?faces-redirect=true";
+        } else {
+            return null;
+        }
     }
 }

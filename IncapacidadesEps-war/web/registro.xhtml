@@ -35,7 +35,7 @@
                                     <p:messages autoUpdate="true"/>
                                     <div class="row">
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.nombresFuncionario}"
+                                            <h:inputText value="#{funcionarioFormBean.nombresFuncionario}"
                                                          id="nombresFuncionario" 
                                                          label="Nombres Funcionario"/>
                                             <h:outputLabel for="nombresFuncionario" 
@@ -43,7 +43,7 @@
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.apellidosFuncionario}" 
+                                            <h:inputText value="#{funcionarioFormBean.apellidosFuncionario}" 
                                                          id="apellidosFuncionario" 
                                                          label="Apellidos Funcionario"/>
                                             <h:outputLabel for="apellidosFuncionario" 
@@ -54,11 +54,11 @@
                                             <h:panelGrid columns="1" cellpadding="5">
                                                 <!--p:outputLabel value="Tipo Documento:" /-->
                                                 <p:selectOneMenu id="menu" 
-                                                                 value="#{registroFormBean.tipoDocumento}" 
+                                                                 value="#{funcionarioFormBean.tipoDocumento}" 
                                                                  style="width:100%">
                                                     <f:selectItem itemValue="0" 
                                                                   itemLabel="Seleccionar Tipo Documento"/>
-                                                    <f:selectItems value="#{registroFormBean.listaTipoDocumentoDto}" 
+                                                    <f:selectItems value="#{funcionarioFormBean.listaTipoDocumentoDto}" 
                                                                    var="documento" 
                                                                    itemLabel="#{documento.descripcion}" 
                                                                    itemValue="#{documento.id}"/>                                                 
@@ -67,7 +67,7 @@
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.documentoFuncionario}" 
+                                            <h:inputText value="#{funcionarioFormBean.documentoFuncionario}" 
                                                          id="documentoFuncionario" 
                                                          label="Documento Funcionario"/>
                                             <h:outputLabel for="documentoFuncionario" 
@@ -75,7 +75,7 @@
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.correoFuncionario}" 
+                                            <h:inputText value="#{funcionarioFormBean.correoFuncionario}" 
                                                          id="correoFuncionario" 
                                                          label="Correo Usuario: "/>
                                             <h:outputLabel for="correoFuncionario" 
@@ -83,7 +83,7 @@
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.telefonoFuncionario}" 
+                                            <h:inputText value="#{funcionarioFormBean.telefonoFuncionario}" 
                                                          id="telefonoFuncionario" 
                                                          label="Telefono Funcionario:"/>
                                             <h:outputLabel for="telefonoFuncionario" 
@@ -91,7 +91,7 @@
                                         </div>
 
                                         <div class="col s12 input-field">
-                                            <h:inputText value="#{registroFormBean.contrasenaFuncionario}" 
+                                            <h:inputText value="#{funcionarioFormBean.contrasenaFuncionario}" 
                                                          id="contrasenaFuncionario" 
                                                          label="Contraseña:"/>
                                             <h:outputLabel for="contrasenaFuncionario" 
@@ -103,7 +103,7 @@
                                             <p:commandLink id="loginButton" value="Registrar Usuario" 
                                                            style="margin-left: 20px; margin-right: 20px" 
                                                            styleClass="btn btn-Large" 
-                                                           action="#{registroFormBean.registrar()}"/>
+                                                           action="#{funcionarioFormBean.registrar()}"/>
                                             <p:commandLink id="registerButton" 
                                                            value="#{msg.lbl_volver}" 
                                                            style="margin-left: 20px; margin-right: 20px" 

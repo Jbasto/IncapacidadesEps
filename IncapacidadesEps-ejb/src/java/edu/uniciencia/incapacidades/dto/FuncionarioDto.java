@@ -13,15 +13,25 @@ public class FuncionarioDto {
 
     int pkIdFuncionario, fkIdTipoDocumentoFuncionario;
     String funcionarioNombres, funcionarioApellidos, funcionarioDocumento,
-            funcionarioTelefono, funcionarioCorreo, funcionarioContrasena;
+            funcionarioTelefono, funcionarioCorreo, funcionarioContrasena,
+            tipoDocumento;
 
     public FuncionarioDto(int pkIdFuncionario, String funcionarioNombres) {
         this.pkIdFuncionario = pkIdFuncionario;
         this.funcionarioNombres = funcionarioNombres;       
     }
-    
-    
 
+    public FuncionarioDto(int pkIdFuncionario, String funcionarioNombres, String funcionarioApellidos, String funcionarioDocumento, String funcionarioTelefono, String funcionarioCorreo, String funcionarioContrasena, String tipoDocumento) {
+        this.pkIdFuncionario = pkIdFuncionario;
+        this.funcionarioNombres = funcionarioNombres;
+        this.funcionarioApellidos = funcionarioApellidos;
+        this.funcionarioDocumento = funcionarioDocumento;
+        this.funcionarioTelefono = funcionarioTelefono;
+        this.funcionarioCorreo = funcionarioCorreo;
+        this.funcionarioContrasena = funcionarioContrasena;
+        this.tipoDocumento = tipoDocumento;
+    }
+          
     public int getPkIdFuncionario() {
         return pkIdFuncionario;
     }
@@ -86,4 +96,11 @@ public class FuncionarioDto {
         this.funcionarioContrasena = funcionarioContrasena;
     }
 
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }    
 }

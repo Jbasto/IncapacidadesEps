@@ -15,91 +15,53 @@
                     <h:form>
                         <p:growl autoUpdate="true"/>
                         <p:messages autoUpdate="true"/>
-                        <div class="row" style="text-align: center">
-                            <div class="col">
-                                <h:outputLabel                                    
-                                    for="idFuncionario" 
-                                    value="Funcionario"/>
+                        <p:panelGrid columns="2">
 
-                                <p:selectOneMenu id="menuFuncionario" 
-                                                 value="#{citaFormBean.citaFuncionario}">
+                            <h:outputLabel value="Funcionario"/>
 
-                                    <f:selectItems value="#{citaFormBean.listaFuncionarioDto}" 
-                                                   var="funcionario" 
-                                                   itemLabel="#{funcionario.funcionarioNombres}" 
-                                                   itemValue="#{funcionario.pkIdFuncionario}"/>                                                 
-                                </p:selectOneMenu>
-                            </div>
+                            <p:selectOneMenu value="#{citaFormBean.citaFuncionario}">
+                                <f:selectItems value="#{citaFormBean.listaFuncionarioDto}" 
+                                               var="funcionario" 
+                                               itemLabel="#{funcionario.funcionarioNombres}" 
+                                               itemValue="#{funcionario.pkIdFuncionario}"/>                                                 
+                            </p:selectOneMenu>
 
-                            <div class="col">
-                                <h:outputLabel                                    
-                                    for="idPaciente"
-                                    value="Paciente"/>
+                            <h:outputLabel value="Paciente"/>
+                            <p:selectOneMenu value="#{citaFormBean.citaPaciente}">
+                                <f:selectItems value="#{citaFormBean.listaPacienteDto}" 
+                                               var="paciente" 
+                                               itemLabel="#{paciente.pacienteNombres}" 
+                                               itemValue="#{paciente.pkIdPaciente}"/>                                                 
+                            </p:selectOneMenu>
 
-                                <p:selectOneMenu 
-                                    id="menuPaciente" 
-                                    value="#{citaFormBean.citaPaciente}">
-                                    <f:selectItems 
-                                        value="#{citaFormBean.listaPacienteDto}" 
-                                        var="paciente" 
-                                        itemLabel="#{paciente.pacienteNombres}" 
-                                        itemValue="#{paciente.pkIdPaciente}"/>                                                 
-                                </p:selectOneMenu>
-                            </div>   
+                            <h:outputLabel value="Hora Programada"/>
+                            <p:calendar pattern="yyyy/MM/dd HH:mm"
+                                        value="#{citaFormBean.citaHoraProgramada}"                                   
+                                        mask="true"/>
 
-                            <div class="col">
-                                <h:outputLabel                                     
-                                    for="horaProgramada" 
-                                    value="Hora Programada"/>
+                            <h:outputLabel value="Hora Atención"/>
 
-                                <p:calendar
-                                    id="horaProgramada" 
-                                    pattern="yyyy/MM/dd HH:mm"
-                                    value="#{citaFormBean.citaHoraProgramada}"                                   
-                                    mask="true"/>
-                            </div>  
+                            <p:calendar pattern="yyyy/MM/dd HH:mm"
+                                        value="#{citaFormBean.citaHoraAtencion}"                                   
+                                        mask="true"/>                                                 
 
-                            <div class="col">
-                                <h:outputLabel
-                                    for="horaAtencion" 
-                                    value="Hora Atención"/>
+                            <h:outputLabel value="Descripcion"/>
+                            <h:inputText value="#{citaFormBean.citaDescripcion}"/>                                    
 
-                                <p:calendar
-                                    id="horaAtencion" 
-                                    pattern="yyyy/MM/dd HH:mm"
-                                    value="#{citaFormBean.citaHoraAtencion}"                                   
-                                    mask="true"/>                                                 
-                            </div> 
+                            <h:outputLabel value="¿Aplica Incapacidad?"/>
 
-                            <div class="col">                               
-                                <h:outputLabel 
-                                    for="descripcion" 
-                                    value="Descripcion"/>
+                            <p:selectBooleanCheckbox value="#{citaFormBean.citaAplicaIncapacidad}" 
+                                                     itemLabel="Incapacidad"/>                                                                   
 
-                                <h:inputText 
-                                    value="#{citaFormBean.citaDescripcion}" 
-                                    id="descripcion"/>                                    
-                            </div> 
-
-                            <div class="col">                               
-                                <h:outputLabel 
-                                    for="aplicaIncapacidad" 
-                                    value="¿Aplica Incapacidad?"/>
-
-                                <p:selectBooleanCheckbox 
-                                    value="#{citaFormBean.citaAplicaIncapacidad}" 
-                                    itemLabel="Incapacidad"/>                                                                   
-                            </div>                            
-                        </div>
-                        <div class="col" style="margin: 20px; text-align: center">                            
-                            <h:commandButton 
-                                action="#{citaFormBean.registrarCita()}" 
-                                value="Registrar Cita"
-                                style="margin-left: 20px; margin-right: 20px" 
-                                styleClass="btn btn-primary">
+                            <div></div>
+                            <h:commandButton action="#{citaFormBean.registrarCita()}" 
+                                             value="Registrar Cita"
+                                             style="margin-left: 20px; margin-right: 20px" 
+                                             styleClass="btn btn-primary">
                                 <f:param name="confirmButton"/>
                             </h:commandButton>
-                        </div> 
+
+                        </p:panelGrid>                            
                     </h:form>
                 </p:tab>
 

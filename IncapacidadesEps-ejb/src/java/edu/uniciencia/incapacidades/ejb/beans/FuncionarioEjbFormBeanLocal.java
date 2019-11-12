@@ -5,6 +5,7 @@
  */
 package edu.uniciencia.incapacidades.ejb.beans;
 
+import edu.uniciencia.incapacidades.dto.FuncionarioDto;
 import edu.uniciencia.incapacidades.dto.TipoDocumentoDto;
 import java.util.List;
 import javax.ejb.Local;
@@ -26,4 +27,9 @@ public interface FuncionarioEjbFormBeanLocal {
 
     int getIdFuncionario();
     
+    List<FuncionarioDto> getListFuncionarioDto();
+    
+    boolean deletePacientePorID(int idFuncionario);
+    
+    boolean updatePacientePorId(int id, String nombre, String apellidos, String tipoDoc, String documento, String correo, String telefono, String contrasena);
 }

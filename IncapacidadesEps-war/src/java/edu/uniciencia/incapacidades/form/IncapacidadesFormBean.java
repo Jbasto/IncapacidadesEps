@@ -8,7 +8,6 @@ package edu.uniciencia.incapacidades.form;
 import edu.uniciencia.incapacidades.dto.EstadoIncapacidadDto;
 import edu.uniciencia.incapacidades.dto.IncapacidadesDto;
 import edu.uniciencia.incapacidades.dto.PacienteDto;
-import edu.uniciencia.incapacidades.dto.TipoDocumentoDto;
 import edu.uniciencia.incapacidades.dto.TipoIncapacidadDto;
 import edu.uniciencia.incapacidades.ejb.beans.IncapacidadesEjbFormBeanLocal;
 import edu.uniciencia.incapacidades.util.Util;
@@ -153,7 +152,9 @@ public class IncapacidadesFormBean {
 
             boolean insert = incapacidadesEjbFormBean.insertIncapacidad(incapacidadFechaInicio, incapacidadFechaFin, tipoIncapacidad, estadoIncapacidad, citaNombre);
 
-            if (insert) {                
+            if (insert) {
+                incapacidadFechaInicio = null;
+                incapacidadFechaFin = null;                
                 Util.addSuccessMessage("Registro Correcto!");
             } else {
                 Util.addErrorMessage("Ha ocurrido un error al guardar, inténtelo de nuevo.");

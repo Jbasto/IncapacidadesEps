@@ -19,7 +19,7 @@
     </managed-bean>
     <managed-bean>
         <managed-bean-name>registroFormBean</managed-bean-name>
-        <managed-bean-class>edu.uniciencia.incapacidades.form.RegistroFormBean</managed-bean-class>
-        <managed-bean-scope>application</managed-bean-scope>
-    </managed-bean>
+        <managed-bean-class>edu.uniciencia.incapacidades.form.FuncionarioFormBean</managed-bean-class>
+    
+        <managed-bean-scope>application</managed-bean-scope></managed-bean>
 </faces-config>

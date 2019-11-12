@@ -5,6 +5,7 @@
  */
 package edu.uniciencia.incapacidades.ejb.beans;
 
+import edu.uniciencia.incapacidades.dto.FuncionarioDto;
 import edu.uniciencia.incapacidades.dto.TipoDocumentoDto;
 import edu.uniciencia.incapacidades.ejb.persistentes.Funcionario;
 import edu.uniciencia.incapacidades.ejb.persistentes.TipoDocumento;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -28,6 +30,9 @@ import javax.persistence.Query;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class FuncionarioEjbFormBean implements FuncionarioEjbFormBeanLocal {
+
+    @EJB
+    private PacienteEjbFormBeanLocal pacienteEjbFormBean;
 
     @PersistenceContext(unitName = "IncapacidadesEps-ejbPU")
     private EntityManager em;
@@ -155,14 +160,91 @@ public class FuncionarioEjbFormBean implements FuncionarioEjbFormBeanLocal {
 
     @Override
     public int getIdFuncionario() {
+        int result;
         try {
             Query query = em.createQuery("select max(f.pkIdFuncionario) from Funcionario f ");
-            int result = (int) query.getSingleResult();//salary of type long
-            
-            return result;            
+            result = (int) query.getSingleResult();
+        } catch (Exception e) {
+            result = 0;
+        }
+        return result;
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<FuncionarioDto> getListFuncionarioDto() {
+        List<FuncionarioDto> listaFuncionarioDtos = new ArrayList<>();
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT f FROM ");
+            sql.append("Funcionario f ");
+            Query query = em.createQuery(sql.toString());
+            List<Funcionario> listaFuncionarios = query.getResultList();
+            query.getResultList();
+            if (!listaFuncionarios.isEmpty()) {
+                listaFuncionarios.forEach((funcionarioEntity) -> {
+                    String tipoDoc = pacienteEjbFormBean.getNombreTipoDocumento(funcionarioEntity.getFkIdTipoDocumentoFuncionario());
+
+                    listaFuncionarioDtos.add(new FuncionarioDto(
+                            funcionarioEntity.getPkIdFuncionario(),
+                            funcionarioEntity.getFuncionarioNombres(),
+                            funcionarioEntity.getFuncionarioApellidos(),
+                            funcionarioEntity.getFuncionarioDocumento(),
+                            funcionarioEntity.getFuncionarioTelefono(),
+                            funcionarioEntity.getFuncionarioCorreo(),
+                            funcionarioEntity.getFuncionarioContrasena(),                            
+                            tipoDoc
+                    ));
+                });
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return listaFuncionarioDtos;
     }
+    
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public boolean deletePacientePorID(int idFuncionario) {
+        Funcionario funcionarioSelect;
+        boolean result = false;
 
+        try {
+            funcionarioSelect = em.find(Funcionario.class, idFuncionario);
+            if (funcionarioSelect != null) {
+                em.remove(funcionarioSelect);
+                result = true;
+            }
+        } catch (NumberFormatException ex) {
+            throw new RuntimeException(ex);
+        }
+        return result;
+    }
+    
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public boolean updatePacientePorId(int id, String nombre, String apellidos, String tipoDoc, String documento, String correo, String telefono, String contrasena) {
+        Funcionario f;
+        try {
+            f = em.find(Funcionario.class, id);
+            int tipoDocu = pacienteEjbFormBean.getIdTipoDocumento(tipoDoc);
+                        
+            if (f != null) {
+                f.setFuncionarioNombres(nombre);
+                f.setFuncionarioApellidos(apellidos);
+                f.setFkIdTipoDocumentoFuncionario(tipoDocu);
+                f.setFuncionarioDocumento(documento);
+                f.setFuncionarioCorreo(correo);
+                f.setFuncionarioTelefono(telefono);
+                f.setFuncionarioCorreo(correo);
+                em.merge(f);
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }

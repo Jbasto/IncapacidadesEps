@@ -169,7 +169,7 @@ public class PacienteFormBean {
         }
     }
 
-    public String editarCita() {        
+    public String editarPaciente() {        
         if (pacienteEjbFormBean.updatePacientePorId(pacienteSelect.getPkIdPaciente(), pacienteSelect.getPacienteNombres(), pacienteSelect.getPacienteApellidos(), pacienteSelect.getTipoDocumentoPaciente(), pacienteSelect.getPacienteDocumento(), pacienteSelect.getEpsPaciente())) {
             return "faces/pacientes.xhtml?faces-redirect=true";
         } else {
